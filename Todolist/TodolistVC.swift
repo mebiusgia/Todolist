@@ -12,10 +12,15 @@ import CoreData
 class TodolistVC: UITableViewController {
     
     var itemArray = ["Luffy","Zoro","Sanji"]
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let items = defaults.array(forKey: "TodolistArray") as? [String] {
+            itemArray = items
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,6 +54,7 @@ class TodolistVC: UITableViewController {
         let action = UIAlertAction(title: "Add now", style: .default) { (action) in
             //What will happen when button was pressed
             self.itemArray.append(textfield.text!)
+            self.defaults.set(self.itemArray, forKey: "TodolistArray")
             self.tableView.reloadData()
         }
         
